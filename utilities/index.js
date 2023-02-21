@@ -67,7 +67,7 @@ Util.buildaddvehicleform = async function () {
   data.rows.forEach((row) => {
     options += `<option value="${row.classification_id}">${row.classification_name}</option> `;
   });
-  console.log(data.rows);
+  // console.log(data.rows);
 
   let view = `<form action="/inv/sendvehicle" method="post">
   <label for="classification_id">Classification:</label><br>

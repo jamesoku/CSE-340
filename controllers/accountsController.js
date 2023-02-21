@@ -80,7 +80,7 @@ async function registerClient(req, res) {
     client_email,
     client_password
   );
-  console.log(regResult);
+  // console.log(regResult);
   if (regResult) {
     const loginview = await LoginView();
     res.status(201).render("clients/login.ejs", {

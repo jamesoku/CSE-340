@@ -50,7 +50,7 @@ invCont.registerClassform = async function (req, res) {
   const regResult = await invModel.registerNewclassification(
     classification_name
   );
-  console.log(regResult);
+  // console.log(regResult);
   if (regResult) {
     let nav = await utilities.getNav();
     res.status(201).render("./inventory/management-view.ejs", {

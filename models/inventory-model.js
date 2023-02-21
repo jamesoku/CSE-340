@@ -26,7 +26,7 @@ async function getVehicleByinvId(invId) {
       [invId]
     );
     // console.log(data.rows);
-    console.log("get info");
+    // console.log("get info");
     return data.rows;
   } catch (error) {
     console.error("getVehicleByinv_Id error" + error);
