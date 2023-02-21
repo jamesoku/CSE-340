@@ -9,7 +9,16 @@ const baseController = require("./controllers/baseController");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
+const bodyParser = require("body-parser")
 const app = express();
+
+
+/* ***********************
+ * Middleware
+ *************************/
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 
 /* ***********************
  * View Engine and Templates
@@ -27,8 +36,10 @@ app.use(require("./routes/static"));
 app.get("/", baseController.buildHome);
 
 // Inventory routes
-app.use("/inv", require("./routes/inventory-route"))
+app.use("/inv", require("./routes/inventory-route"));
 
+//client routes
+app.use("/client", require("./routes/account-route"));
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file

@@ -46,6 +46,68 @@ Util.buildvehicle = function (data) {
   </ul>
   </div>
   </div>`;
+
+  return view;
+};
+
+Util.buildaddClassform = function () {
+  let view = `<form action="/inv/sendclass" method="post">
+  <h3> Name may not contain a space or special character of any kind </h3>
+  <label for="classification_name">Add Classification:</label><br>
+  <input type="text" id="classification_name" name="classification_name" pattern="[a-zA-Z]+" required><br>
+  <button type="submit">Add Classification</button>
+</form>`;
+  return view;
+};
+
+Util.buildaddvehicleform = async function () {
+  let options = "";
+  let data = await invModel.getClassifications();
+
+  data.rows.forEach((row) => {
+    options += `<option value="${row.classification_id}">${row.classification_name}</option> `;
+  });
+  console.log(data.rows);
+
+  let view = `<form action="/inv/sendvehicle" method="post">
+  <label for="classification_id">Classification:</label><br>
+  <select id="classification_id" name="classification_id" required>
+  <option value="">Choose a classification</option>
+    ${options}
+  </select><br><br>
+  
+  <label for="inv_make">Make:</label><br>
+  <input type="text" id="inv_make" name="inv_make" required><br><br>
+  
+  <label for="inv_model">Model:</label><br>
+  <input type="text" id="inv_model" name="inv_model" required><br>
+  
+  <label for="inv_description">Description:</label><br>
+  <textarea id="inv_description" name="inv_description" required></textarea><br>
+  
+  <label for="inv_image">Image Path:</label>
+  <input type="text" id="inv_image" name="inv_image" value="/images/vehicles/no-image.png" required><br>
+  
+  <label for="inv_thumbnail">Thumbnail Path:</label><br>
+  <input type="text" id="inv_thumbnail" name="inv_thumbnail" value="/images/vehicles/no-image.png" required><br>
+  
+  <label for="inv_price">Price:</label><br>
+  <input type="text" id="inv_price" name="inv_price" required><br>
+  
+  <label for="inv_year">Year:</label><br>
+  <input type="text" id="inv_year" name="inv_year" required><br>
+  
+  <label for="inv_miles">Miles:</label><br>
+  <input type="text" id="inv_miles" name="inv_miles" required><br>
+  
+  <label for="inv_color">Color:</label><br>
+  <input type="text" id="inv_color" name="inv_color" required><br>
+
+  
+  
+  <input type="submit" value="Submit">
+</form>
+`;
   return view;
 };
 

@@ -8,6 +8,115 @@
   font-family: 'Roboto', sans-serif;
 
 }
+
+#add-classification {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0077c2;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+/* Hover state */
+#add-classification:hover {
+  background-color: #0065a8;
+  color: #fff;
+}
+
+/* Style for links with 'add-vehicle' id */
+#add-vehicle {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0077c2;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+/* Hover state */
+#add-vehicle:hover {
+  background-color: #0065a8;
+  color: #fff;
+}
+
+form {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 100px auto;
+  padding: 20px 30px;
+  max-width: 400px;
+}
+h2 {
+  text-align: center;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+input[type=text], input[type=email], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.password-toggle {
+  display: inline-block;
+  margin-left: 8px;
+  cursor: pointer;
+}
+button[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+button[type=submit]:hover {
+  background-color: #45a049;
+}
+.required:after {
+  content: " *";
+  color: red;
+}
+h2 {
+  text-align: center;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+input[type="text"],
+input[type="password"] {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+}
+input[type="submit"] {
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+}
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
 .split{
   display: flex;
   flex-direction: row;

@@ -21,11 +21,131 @@ invCont.buildByClassification = async function (req, res, next) {
   });
 };
 
-invCont.buildVehicle = async function (req, res, next) {
-  const invID = req.params.inv_id;
+invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav();
+
+  res.render("./inventory/management-view", {
+    title: "Management",
+    nav,
+    message: null,
+  });
+};
+
+invCont.newclassification = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  let newclassform = utilities.buildaddClassform();
+
+  res.render("./inventory/add-classification", {
+    title: "Add new classification",
+    nav,
+    message: null,
+    newclassform,
+  });
+};
+
+invCont.registerClassform = async function (req, res) {
+  let nav = await utilities.getNav();
+  const { classification_name } = req.body;
+
+  const regResult = await invModel.registerNewclassification(
+    classification_name
+  );
+  console.log(regResult);
+  if (regResult) {
+    let nav = await utilities.getNav();
+    res.status(201).render("./inventory/management-view.ejs", {
+      title: "Management",
+      nav,
+      message: `Congratulations, you registered ${classification_name}.`,
+      errors: null,
+    });
+  } else {
+    const message = "Sorry, the registration failed.";
+    let newclassform = utilities.buildaddClassform();
+    let nav = await utilities.getNav();
+    res.status(501).render("./inventory/add-classification.ejs", {
+      title: "Add new classification",
+      nav,
+      message,
+      errors: null,
+      newclassform,
+    });
+  }
+};
+
+invCont.newvehicle = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  let newvehicle = await utilities.buildaddvehicleform();
+
+  res.render("./inventory/add-vehicle", {
+    title: "Add new vehicle",
+    nav,
+    message: null,
+    newvehicle,
+  });
+};
+
+invCont.registervehicle = async function (req, res) {
+  let nav = await utilities.getNav();
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+  } = req.body;
+
+  const regResult = await invModel.registerNewvehicle(
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color
+  );
+  console.log(regResult);
+  if (regResult) {
+    let nav = await utilities.getNav();
+    res.status(201).render("./inventory/management-view.ejs", {
+      title: "Management",
+      nav,
+      message: `Congratulations, you registered ${inv_make} ${inv_model}.`,
+      errors: null,
+    });
+  } else {
+    const message = "Sorry, the registration failed.";
+    let newvehicle = utilities.buildaddvehicleform();
+    let nav = await utilities.getNav();
+    res.status(501).render("./inventory/add-vehicle.ejs", {
+      title: "Add new Vehicle",
+      nav,
+      message,
+      errors: null,
+      newvehicle,
+    });
+  }
+};
+
+invCont.buildVehicle = async function (req, res, next) {
+  //The inventory id of the selected vehicle
+  const invID = req.params.inv_id;
+
+  //gets  the nav bar
+  let nav = await utilities.getNav();
+
+  //gets vehicle info from the database
   let data = await invModel.getVehicleByinvId(invID);
 
+  //builds the Html vehicle view
   const vehicleView = Util.buildvehicle(data[0]);
 
   res.render("./inventory/vehicle-detail.ejs", {
