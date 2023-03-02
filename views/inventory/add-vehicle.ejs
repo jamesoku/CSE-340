@@ -1,5 +1,104 @@
-<% if (message) { %>
-<p class="notice"><%= message %></p>
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
 <% } %>
 <h1><%-title %></h1>
-<div><%- newvehicle %></div>
+<form action="/inv/sendvehicle" method="post">
+  <label for="classification_id">Classification:</label><br />
+  <%- classList %>
+
+  <label for="inv_make">Make:</label><br />
+  <input
+    type="text"
+    id="inv_make"
+    name="inv_make"
+    minlength="3"
+    placeholder="Min of 3 characters"
+    value="<%- locals.inv_make %>"
+    required
+  /><br /><br />
+
+  <label for="inv_model">Model:</label><br />
+  <input
+    type="text"
+    id="inv_model"
+    name="inv_model"
+    minlength="3"
+    placeholder="Min of 3 characters"
+    value="<%- locals.inv_model %>"
+    required
+  /><br />
+
+  <label for="inv_description">Description:</label><br />
+  <textarea
+    id="inv_description"
+    name="inv_description"
+    minlength="1"
+    value="<%- locals.inv_description %>"
+    required
+  ></textarea
+  ><br />
+
+  <label for="inv_image">Image Path:</label>
+  <input
+    type="text"
+    id="inv_image"
+    name="inv_image"
+    value="/images/vehicles/no-image.png"
+    required
+  /><br />
+
+  <label for="inv_thumbnail">Thumbnail Path:</label><br />
+  <input
+    type="text"
+    id="inv_thumbnail"
+    name="inv_thumbnail"
+    value="/images/vehicles/no-image.png"
+    required
+  /><br />
+
+  <label for="inv_price">Price:</label><br />
+  <input
+    type="number"
+    id="inv_price"
+    name="inv_price"
+    placeholder="decimal or integer"
+    value="<%- locals.inv_price %>"
+    required
+  /><br />
+
+  <label for="inv_year">Year:</label><br />
+  <input
+    type="number"
+    id="inv_year"
+    name="inv_year"
+    placeholder="4-digit year"
+    pattern="^[0-9]{4}$"
+    value="<%- locals.inv_year %>"
+    required
+  /><br />
+
+  <label for="inv_miles">Miles:</label><br />
+  <input
+    type="number"
+    id="inv_miles"
+    name="inv_miles"
+    placeholder="digit only"
+    value="<%- locals.inv_miles %>"
+    required
+  /><br />
+
+  <label for="inv_color">Color:</label><br />
+  <input
+    type="text"
+    id="inv_color"
+    name="inv_color"
+    value="<%- locals.inv_color %>"
+    required
+  /><br />
+
+  <input type="submit" value="Submit" />
+</form>

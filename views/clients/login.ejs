@@ -1,5 +1,36 @@
-<% if (message) { %>
-<p class="notice"><%= message %></p>
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
 <% } %>
 <h1><%-title %> Form</h1>
-<div><%- loginview %></div>
+<form id="loginForm" action="/client/loginuser" method="post">
+  <label for="username">Username:</label>
+  <input
+    type="email"
+    id="client_email"
+    name="client_email"
+    placeholder="Enter your Email"
+    value="<%- locals.client_email %>"
+    required
+  />
+
+  <label for="password">Password:</label>
+  <input
+    type="password"
+    id="client_password"
+    name="client_password"
+    placeholder="Enter your password"
+    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+    required
+  />
+  <span class="error"
+    >Passwords must be at least 12 characters and contain at least 1 number, 1
+    capital letter and 1 special character</span
+  >
+
+  <input type="submit" value="Login" />
+  <p><a href="/client/registration">No account? Sign-up</a></p>
+</form>

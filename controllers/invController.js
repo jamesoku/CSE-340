@@ -33,13 +33,13 @@ invCont.buildManagement = async function (req, res, next) {
 
 invCont.newclassification = async function (req, res, next) {
   let nav = await utilities.getNav();
-  let newclassform = utilities.buildaddClassform();
+  // let newclassform = utilities.buildaddClassform();
 
   res.render("./inventory/add-classification", {
     title: "Add new classification",
     nav,
     message: null,
-    newclassform,
+    errors: null,
   });
 };
 
@@ -75,13 +75,14 @@ invCont.registerClassform = async function (req, res) {
 
 invCont.newvehicle = async function (req, res, next) {
   let nav = await utilities.getNav();
-  let newvehicle = await utilities.buildaddvehicleform();
+  let classList = await utilities.buildaddvehicleform(null);
 
   res.render("./inventory/add-vehicle", {
     title: "Add new vehicle",
     nav,
     message: null,
-    newvehicle,
+    classList,
+    errors: null,
   });
 };
 
@@ -123,14 +124,14 @@ invCont.registervehicle = async function (req, res) {
     });
   } else {
     const message = "Sorry, the registration failed.";
-    let newvehicle = utilities.buildaddvehicleform();
+    let classList = utilities.buildaddvehicleform();
     let nav = await utilities.getNav();
     res.status(501).render("./inventory/add-vehicle.ejs", {
       title: "Add new Vehicle",
       nav,
       message,
       errors: null,
-      newvehicle,
+      classList,
     });
   }
 };

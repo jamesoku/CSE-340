@@ -20,6 +20,17 @@ async function registerClient(
   }
 }
 
+async function checkExistingEmail(client_email) {
+  try {
+    const sql = "SELECT * FROM client WHERE client_email = $1";
+    const email = await pool.query(sql, [client_email]);
+    return email.rowCount;
+  } catch (error) {
+    return error.message;
+  }
+}
+
 module.exports = {
   registerClient,
+  checkExistingEmail,
 };

@@ -1,5 +1,21 @@
-<% if (message) { %>
-<p class="notice"><%= message %></p>
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
 <% } %>
 <h1><%-title %></h1>
-<div><%- newclassform %></div>
+<form action="/inv/sendclass" method="post">
+  <h3>NAME MUST BE ALPHABETICAL CHARACTERS ONLY</h3>
+  <label for="classification_name">Add Classification:</label>
+  <input
+    type="text"
+    id="classification_name"
+    name="classification_name"
+    pattern="^[A-Za-z]+$"
+    required
+    value="<%= locals.classification_name %>"
+  /><br />
+  <button type="submit">Add Classification</button>
+</form>

@@ -9,6 +9,26 @@
 
 }
 
+input:required:invalid, input:focus:invalid {
+  background-image: url(/images/invalid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+  input:required:valid {
+  background-image: url(/images/valid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+/* .error {
+  display: none;
+}
+
+input:invalid + .error {
+  display: block;
+} */
+
 #add-classification {
   display: inline-block;
   padding: 10px 20px;
@@ -74,7 +94,7 @@ input[type=text], input[type=email], input[type=password] {
 }
 button[type=submit] {
   background-color: #4CAF50;
-  color: white;
+  color: black;
   padding: 12px 20px;
   margin: 8px 0;
   border: none;
@@ -108,7 +128,7 @@ input[type="submit"] {
   background-color: #4CAF50;
   border: none;
   border-radius: 5px;
-  color: #fff;
+  color: black;
   cursor: pointer;
   margin-top: 20px;
   padding: 10px;
