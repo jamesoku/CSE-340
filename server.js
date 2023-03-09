@@ -5,20 +5,21 @@
 /* ***********************
  * Require Statements
  *************************/
+const cookieParser = require("cookie-parser");
 const baseController = require("./controllers/baseController");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
 const app = express();
-
+const Util = require("./utilities/index");
 
 /* ***********************
  * Middleware
  *************************/
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 /* ***********************
  * View Engine and Templates
@@ -33,7 +34,7 @@ app.set("layout", "./layouts/layout"); // not at views root
 app.use(require("./routes/static"));
 
 //Index route
-app.get("/", baseController.buildHome);
+app.get("/", Util.checkJWTToken, baseController.buildHome);
 
 // Inventory routes
 app.use("/inv", require("./routes/inventory-route"));

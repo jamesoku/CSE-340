@@ -6,29 +6,37 @@ const invCont = {};
 
 invCont.buildByClassification = async function (req, res, next) {
   const classificationId = req.params.classificationId;
-  //   console.log(classificationId);
+  // console.log(classificationId);
   //data gets everything in the data base
   let data = await invModel.getVehiclesByClassificationId(classificationId);
+
   let nav = await utilities.getNav();
   // console.log(data);
-  const className = data[0].classification_name;
-  // console.log("yo", className);
+  let className = data[0].classification_name;
+  // console.log(className);
   res.render("./inventory/classification-view", {
     title: className + " vehicles",
     nav,
     message: null,
     data,
+    loggedin,
   });
 };
 
 invCont.buildManagement = async function (req, res, next) {
-  let nav = await utilities.getNav();
+  if(req.clientData.client_type == 'Employee' || req.clientData.client_type == 'Admin' ){
+    let nav = await utilities.getNav();
 
   res.render("./inventory/management-view", {
     title: "Management",
     nav,
     message: null,
   });
+  }
+  else{
+    return res.redirect("/client/");
+  }
+ 
 };
 
 invCont.newclassification = async function (req, res, next) {

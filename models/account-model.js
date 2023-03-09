@@ -30,7 +30,22 @@ async function checkExistingEmail(client_email) {
   }
 }
 
+/* *****************************
+* Return client data using email address
+* ***************************** */
+async function getClientByEmail (client_email) {
+  try {
+    const result = await pool.query(
+      'SELECT client_firstname, client_lastname, client_email, client_type, client_password FROM client WHERE client_email = $1',
+      [client_email])
+    return result.rows[0]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 module.exports = {
   registerClient,
   checkExistingEmail,
+  getClientByEmail
 };

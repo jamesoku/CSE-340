@@ -1,0 +1,22 @@
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %> <% if (message) { %>
+<p class="notice"><%= message %></p>
+<% } %>
+<h1><%- title %></h1>
+
+<% if (type == 'Client') { %>
+<h3>Welcome <%- name %></h3>
+<% } else { %>
+<h3>Welcome <%- name %></h3>
+
+<h3>Client type : <%- type %></h3>
+<h3><a href="/inv/"> Inventory Management</a></h3>
+
+<% } %>
+
+<p>You're logged in</p>

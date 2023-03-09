@@ -4,9 +4,11 @@
   <li><%= error.msg %></li>
   <% }) %>
 </ul>
+<% } %> <% if (message) { %>
+<p class="notice"><%= message %></p>
 <% } %>
 <h1><%-title %> Form</h1>
-<form id="loginForm" action="/client/loginuser" method="post">
+<form id="loginForm" action="/client/" method="post">
   <label for="username">Username:</label>
   <input
     type="email"

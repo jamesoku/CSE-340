@@ -15,13 +15,13 @@ validate.loginRules = () => {
       .trim()
       .isEmail()
       .normalizeEmail() // refer to validator.js docs
-      .withMessage("A valid email is required.")
-      .custom(async (client_email) => {
-        const emailExists = await accountModel.checkExistingEmail(client_email);
-        if (emailExists) {
-          throw new Error("Email exists. Please login or use different email");
-        }
-      }),
+      .withMessage("A valid email is required."),
+    // .custom(async (client_email) => {
+    //   const emailExists = await accountModel.checkExistingEmail(client_email);
+    //   if (emailExists) {
+    //     throw new Error("Email exists. Please login or use different email");
+    //   }
+    // }),
 
     // password is required and must be strong password
     body("client_password")
