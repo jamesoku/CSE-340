@@ -24,19 +24,20 @@ invCont.buildByClassification = async function (req, res, next) {
 };
 
 invCont.buildManagement = async function (req, res, next) {
-  if(req.clientData.client_type == 'Employee' || req.clientData.client_type == 'Admin' ){
+  if (
+    req.clientData.client_type == "Employee" ||
+    req.clientData.client_type == "Admin"
+  ) {
     let nav = await utilities.getNav();
 
-  res.render("./inventory/management-view", {
-    title: "Management",
-    nav,
-    message: null,
-  });
-  }
-  else{
+    res.render("./inventory/management-view", {
+      title: "Management",
+      nav,
+      message: null,
+    });
+  } else {
     return res.redirect("/client/");
   }
- 
 };
 
 invCont.newclassification = async function (req, res, next) {

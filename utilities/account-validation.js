@@ -124,7 +124,6 @@ validate.checkRegData = async (req, res, next) => {
       client_firstname,
       client_lastname,
       client_email,
-      // registerView,
     });
     return;
   }

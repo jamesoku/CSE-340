@@ -1,27 +1,36 @@
 const express = require("express");
 const router = new express.Router();
-const utilities = require("../utilities");
+const Util = require("../utilities");
 const accountCon = require("../controllers/accountsController");
 const regValidate = require("../utilities/account-validation");
 const baseCon = require("../controllers/baseController");
 
-router.get("/login", utilities.checkJWTToken, accountCon.buildLogin);
-router.get("/registration", utilities.checkJWTToken, accountCon.buildRegister);
-router.get("/", utilities.jwtAuth, accountCon.buildManagement);
-router.get("/logout", utilities.clearCookie, baseCon.buildHome);
+router.get(
+  "/login",
+  Util.checkJWTToken,
+  Util.handleErrors(accountCon.buildLogin)
+);
+
+router.get(
+  "/registration",
+  Util.checkJWTToken,
+  Util.handleErrors(accountCon.buildRegister)
+);
+router.get("/", Util.jwtAuth, Util.handleErrors(accountCon.buildManagement));
+router.get("/logout", Util.clearCookie, Util.handleErrors(baseCon.buildHome));
 
 router.post(
   "/register",
   regValidate.registationRules(),
   regValidate.checkRegData,
-  accountCon.registerClient
+  Util.handleErrors(accountCon.registerClient)
 );
 
 router.post(
   "/",
   regValidate.loginRules(),
   regValidate.checkloginData,
-  accountCon.loginClient
+  Util.handleErrors(accountCon.loginClient)
 );
 // Process the login attempt
 router.post("/login", (req, res) => {

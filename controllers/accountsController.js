@@ -20,6 +20,19 @@ async function buildLogin(req, res, next) {
     errors: null,
   });
 }
+///error
+async function buildErr(req, res, next) {
+  let loginview = LoginView();
+  let nav = await utilities.getNav();
+
+  res.render("./clients/login.ejs", {
+    title: "Login",
+    nav2,
+    message: null,
+    loginview,
+    errors: null,
+  });
+}
 
 /* ****************************************
  *  create login view
@@ -161,4 +174,5 @@ module.exports = {
   registerClient,
   loginClient,
   buildManagement,
+  buildErr
 };

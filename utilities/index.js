@@ -151,22 +151,27 @@ Util.jwtAuth = (req, res, next) => {
     loggedin = true;
     next();
   } catch (error) {
-    console.log("yo");
     res.clearCookie("jwt", { httpOnly: true });
     loggedin = false;
     return res.status(403).redirect("/client/login");
   }
 };
 
-
 /* ****************************************
  *  Authorize JWT Token
  * ************************************ */
 Util.clearCookie = (req, res, next) => {
-  res.clearCookie('jwt');
-  loggedin = false
-  next()
+  res.clearCookie("jwt");
+  loggedin = false;
+  next();
+};
 
-  
-}
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
 module.exports = Util;

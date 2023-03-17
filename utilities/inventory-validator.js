@@ -29,13 +29,13 @@ validateinv.checkclassData = async (req, res, next) => {
       title: "Add new classification",
       nav,
       classification_name,
-      // newclassform,
+      
     });
     return;
   }
   next();
 };
-//////////////////////////////
+
 
 validateinv.vehicleRules = () => {
   return [
