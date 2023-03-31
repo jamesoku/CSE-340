@@ -67,18 +67,20 @@ async function buildRegister(req, res, next) {
 }
 
 ///////
+
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav();
-  let name = req.clientData.client_firstname;
-  let type = req.clientData.client_type;
+  let client_firstname = req.clientData.client_firstname;
+  let client_type = req.clientData.client_type;
+  let client_id = req.clientData.client_id;
   res.render("./clients/AccountManagement.ejs", {
     title: "Account Management",
     nav,
-    name,
-    type,
+    client_firstname,
+    client_type,
+    client_id,
     errors: null,
     message: null,
-    loggedin,
   });
 }
 
@@ -167,6 +169,121 @@ async function loginClient(req, res) {
   }
 }
 
+async function accManagement(req, res, next) {
+  const ClientID = parseInt(req.params.client_id);
+  console.log(ClientID);
+  const clientData = await Accmodel.getClientById(ClientID);
+  console.log(clientData);
+  let client_firstname = clientData.client_firstname;
+  let client_lastname = clientData.client_lastname;
+  let client_email = clientData.client_email;
+  let client_id = ClientID;
+  const nav = await utilities.getNav();
+  res.render("./clients/Edit-acc", {
+    title: "Edit Account",
+    nav,
+    client_id,
+    client_lastname,
+    client_firstname,
+    client_email,
+    errors: null,
+    message: null,
+  });
+}
+///updateclient
+async function updateClient(req, res) {
+  let nav = await utilities.getNav();
+
+  const { client_firstname, client_lastname, client_email, client_id } =
+    req.body;
+  let clientData = await Accmodel.getClientById(client_id);
+  const regResult = await Accmodel.updateClient(
+    client_firstname,
+    client_lastname,
+    client_email,
+    client_id
+  );
+  // console.log(regResult);
+  if (regResult) {
+    const loginview = await LoginView();
+    res.status(201).render("clients/AccountManagement", {
+      title: "Account Management",
+      nav,
+      message: `Congratulations, your information has been updated.`,
+      errors: null,
+      client_type: clientData.client_type,
+      client_id,
+      client_firstname,
+    });
+  } else {
+    const message = "Sorry, the update failed.";
+    // const registerView = await RegisterView();
+    res.status(501).render("clients/Edit-acc", {
+      title: "Edit Account",
+      nav,
+      client_id,
+      client_lastname,
+      client_firstname,
+      client_email,
+      message,
+      errors: null,
+      // registerView,
+    });
+  }
+}
+
+async function updatePass(req, res) {
+  let nav = await utilities.getNav();
+  const { client_password, client_id } = req.body;
+  let clientData = await Accmodel.getClientById(client_id);
+  // Hash the password before storing
+  let hashedPassword;
+  try {
+    // pass regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(client_password, 10);
+  } catch (error) {
+    res.status(500).render("clients/AccountManagement", {
+      title: "Account Management",
+      nav,
+      message: "Sorry, there was an error processing the Password.",
+      errors: null,
+      client_type: clientData.client_type,
+      client_id,
+      client_firstname,
+    });
+  }
+
+  const regResult = await Accmodel.updatePass(hashedPassword, client_id);
+  // console.log(regResult);
+  if (regResult) {
+    const loginview = await LoginView();
+    res.status(201).render("clients/AccountManagement", {
+      title: "Account Management",
+      nav,
+      message: `Congratulations, your Password has been updated. Please log out and verify`,
+      errors: null,
+      client_type: clientData.client_type,
+      client_id,
+      client_firstname: clientData.client_firstname,
+      client_lastname: clientData.client_lastname,
+      client_email: clientData.client_email,
+    });
+  } else {
+    const message = "Sorry, the update failed.";
+    // const registerView = await RegisterView();
+    res.status(501).render("clients/Edit-acc", {
+      title: "Edit Account",
+      nav,
+      client_id,
+      client_firstname: clientData.client_firstname,
+      client_lastname: clientData.client_lastname,
+      client_email: clientData.client_email,
+      message,
+      errors: null,
+      // registerView,
+    });
+  }
+}
 module.exports = {
   buildLogin,
   LoginView,
@@ -174,5 +291,8 @@ module.exports = {
   registerClient,
   loginClient,
   buildManagement,
-  buildErr
+  buildErr,
+  accManagement,
+  updateClient,
+  updatePass,
 };

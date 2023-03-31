@@ -1,0 +1,88 @@
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %> <% if (message) { %>
+<p class="notice"><%= message %></p>
+<% } %>
+<h1><%- title %></h1>
+
+<form class="Updateform" action="/client/updateuser" method="post">
+  <label for="client_firstname">First Name:</label>
+  <input
+    type="text"
+    id="client_firstname"
+    name="client_firstname"
+    placeholder="Enter your Firstname"
+    value="<%- locals.client_firstname %>"
+    pattern="[A-Za-z]{1,}"
+    required
+  />
+
+  <label for="client_lastname">Last Name:</label>
+  <input
+    type="text"
+    id="client_lastname"
+    name="client_lastname"
+    placeholder="Enter your Lastname"
+    value="<%- locals.client_lastname %>"
+    pattern="[A-Za-z]{1,}"
+    required
+  />
+
+  <label for="client_email">Email:</label>
+  <input
+    type="email"
+    id="client_email"
+    name="client_email"
+    placeholder="Email"
+    value="<%- locals.client_email %>"
+    required
+  />
+
+  <input type="submit" value="Update" />
+  <input type="hidden" name="client_id" <% if(locals.client_id) { %>
+  value="<%= locals.client_id %>" <% } %>>
+</form>
+
+<h2>Update Password</h2>
+<span class="error"
+  >Passwords must be at least 12 characters and contain at least 1 number, 1
+  capital letter and 1 special character</span>
+<p>*note your original password will be changed</p>
+
+<form class="Updateform" action="/client/updatepass" method="post">
+  <label for="client_password">Password:</label>
+  <input
+    type="password"
+    id="client_password"
+    name="client_password"
+    placeholder="Enter your password"
+    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+    required
+  />
+  <button type="button" id="togglePassword">Show Password</button>
+
+  <input type="submit" value="Change Password" />
+  <input type="hidden" name="client_id" <% if(locals.client_id) { %>
+  value="<%= locals.client_id %>" <% } %>>
+</form>
+
+<script>
+  const togglePassword = document.querySelector("#togglePassword");
+  const passwordInput = document.querySelector("#client_password");
+
+  togglePassword.addEventListener("click", function (e) {
+    // toggle the type of the password input field
+    const type =
+      passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+
+    // toggle the button label
+    const label =
+      this.innerHTML === "Show Password" ? "Hide Password" : "Show Password";
+    this.innerHTML = label;
+  });
+</script>

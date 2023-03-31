@@ -52,16 +52,6 @@ Util.buildvehicle = function (data) {
   return view;
 };
 
-// Util.buildaddClassform = function () {
-//   let view = `<form action="/inv/sendclass" method="post">
-//   <h3> NAME MUST BE ALPHABETICAL CHARACTERS ONLY </h3>
-//   <label for="classification_name">Add Classification:</label>
-//   <input type="text" id="classification_name" name="classification_name" pattern="^[A-Za-z]+$" required><br>
-//   <button type="submit">Add Classification</button>
-// </form>`;
-//   return view;
-// };
-
 Util.buildaddvehicleform = async function (classification_id = null) {
   let options = "";
   let data = await invModel.getClassifications();

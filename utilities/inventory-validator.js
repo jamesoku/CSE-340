@@ -3,6 +3,7 @@ const { body, validationResult } = require("express-validator");
 const validateinv = {};
 const AccCont = require("../controllers/accountsController");
 const accountModel = require("../models/account-model");
+const invModel = require("../models/inventory-model");
 
 validateinv.classificationRules = () => {
   return [
@@ -29,17 +30,16 @@ validateinv.checkclassData = async (req, res, next) => {
       title: "Add new classification",
       nav,
       classification_name,
-      
     });
     return;
   }
   next();
 };
 
-
 validateinv.vehicleRules = () => {
   return [
     // valid email is required and cannot already exist in the DB
+
     body("classification_id")
       .toInt()
       .isInt({ min: 1 })
@@ -114,17 +114,22 @@ validateinv.checkvehicleData = async (req, res, next) => {
   } = req.body;
   let errors = [];
   errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
     // let registerView = await AccCont.RegisterView();
-    let classList = await utilities.buildaddvehicleform();
-
-    res.render("../views/inventory/add-vehicle", {
+    let classList = await utilities.buildaddvehicleform(classification_id);
+    let vehicleData = await invModel.getVehicleByinvId(invid);
+    const classificationSelect = await utilities.buildaddvehicleform(
+      vehicleData.classification_id
+    );
+    res.render("../views/inventory/edit-vehicle", {
       errors,
       message: null,
       title: "Add new classification",
       nav,
       classList,
+      classificationSelect,
       classification_id,
       inv_make,
       inv_model,
@@ -142,4 +147,54 @@ validateinv.checkvehicleData = async (req, res, next) => {
   next();
 };
 
+validateinv.checkUpdateData = async (req, res, next) => {
+  const {
+    inv_id,
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+  } = req.body;
+  let errors = [];
+  const invid = req.body.inv_id;
+  
+  let vehicleData = await invModel.getVehicleByinvId(invid);
+  const classificationSelect = await utilities.buildaddvehicleform(
+    vehicleData.classification_id
+  );
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    // let registerView = await AccCont.RegisterVew();
+    let classList = await utilities.buildaddvehicleform(classification_id);
+
+    res.render("../views/inventory/edit-vehicle", {
+      errors,
+      message: null,
+      classificationSelect,
+      title: "Add new classification",
+      nav,
+      classList,
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      inv_id,
+    });
+    return;
+  }
+  next();
+};
 module.exports = validateinv;

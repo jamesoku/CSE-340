@@ -5,10 +5,13 @@
   <% }) %>
 </ul>
 <% } %>
+<% if (message) { %>
+  <p class="notice"><%= message %></p>
+  <% } %>
 <h1><%-title %></h1>
-<form action="/inv/sendvehicle" method="post">
+<form action="/inv/update/" method="post">
   <label for="classification_id">Classification:</label><br />
-  <%- classList %>
+  <%- classificationSelect %>
 
   <label for="inv_make">Make:</label><br />
   <input
@@ -36,9 +39,11 @@
   <textarea
     id="inv_description"
     name="inv_description"
+    value="<%- locals.inv_description %>"
     minlength="1"
     required
-  ></textarea
+  >
+<%- locals.inv_description %></textarea
   ><br />
 
   <label for="inv_image">Image Path:</label>
@@ -46,7 +51,7 @@
     type="text"
     id="inv_image"
     name="inv_image"
-    value="/images/vehicles/no-image.png"
+    value="<%-locals.inv_image%>"
     required
   /><br />
 
@@ -55,7 +60,7 @@
     type="text"
     id="inv_thumbnail"
     name="inv_thumbnail"
-    value="/images/vehicles/no-image.png"
+    value="<%- locals.inv_thumbnail %>"
     required
   /><br />
 
@@ -98,5 +103,8 @@
     required
   /><br />
 
-  <input type="submit" value="Submit" />
+  <input type="submit" name="submit" value="Update Vehicle" />
+
+  <input type="hidden" name="inv_id" <% if(locals.inv_id) { %>
+  value="<%= locals.inv_id %>" <% } %>>
 </form>

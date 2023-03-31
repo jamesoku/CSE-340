@@ -6,6 +6,15 @@ const invValidate = require("../utilities/inventory-validator");
 const Util = require("../utilities");
 const accountCon = require("../controllers/accountsController");
 
+router.get("/getVehicles/:classification_id", invController.getVehiclesJSON);
+
+router.get("/edit/:inv_id", Util.checkJWTToken, invController.editVehicleView);
+router.get(
+  "/delete/:inv_id",
+  Util.checkJWTToken,
+  invController.deleteVehicleView
+);
+
 // Route to build inventory by classification view
 router.get(
   "/type/:classificationId",
@@ -38,11 +47,24 @@ router.post(
   Util.handleErrors(invController.registerClassform)
 );
 
+// router.post(
+//   "/update",
+//   invValidate.vehicleRules(),
+//   invValidate.checkvehicleData,
+//   Util.handleErrors(invController.registervehicle)
+// );
+
 router.post(
-  "/sendvehicle",
+  "/update/",
+  Util.jwtAuth,
   invValidate.vehicleRules(),
-  invValidate.checkvehicleData,
-  Util.handleErrors(invController.registervehicle)
+  invValidate.checkUpdateData,
+  Util.handleErrors(invController.updateVehicle)
 );
 
+router.post(
+  "/delete/",
+  Util.jwtAuth,
+  Util.handleErrors(invController.deleteVehicle)
+);
 module.exports = router;

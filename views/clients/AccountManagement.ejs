@@ -9,14 +9,17 @@
 <% } %>
 <h1><%- title %></h1>
 
-<% if (type == 'Client') { %>
-<h3>Welcome <%- name %></h3>
+<% if (client_type == 'Client') { %>
+<h3>Welcome <%- client_firstname %></h3>
 <% } else { %>
-<h3>Welcome <%- name %></h3>
+<h3>Welcome <%- client_firstname %></h3>
 
-<h3>Client type : <%- type %></h3>
+<h3>Client type : <%- client_type %></h3>
 <h3><a href="/inv/"> Inventory Management</a></h3>
 
 <% } %>
+<h3>
+  <a href="/client/updateaccview/<%-client_id%>"> Update account information</a>
+</h3>
 
 <p>You're logged in</p>

@@ -5,6 +5,9 @@
   <% }) %>
 </ul>
 <% } %>
+<% if (message) { %>
+  <p class="notice"><%= message %></p>
+  <% } %>
 <h1><%-title %></h1>
 <form action="/inv/sendclass" method="post">
   <h3>NAME MUST BE ALPHABETICAL CHARACTERS ONLY</h3>

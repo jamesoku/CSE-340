@@ -52,7 +52,7 @@ app.use(async (req, res, next) => {
  * Express Error Handler
  * Place after all other middleware
  *************************/
-app.use(Util.checkJWTToken, async (err, req, res, next) => {
+app.use(Util.jwtAuth, async (err, req, res, next) => {
   let nav = await Util.getNav();
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
   if (err.status == 404) {
@@ -64,7 +64,7 @@ app.use(Util.checkJWTToken, async (err, req, res, next) => {
     title: err.status || "Server Error",
     message: err.message,
     nav,
-    loggedin,
+    
   });
 });
 

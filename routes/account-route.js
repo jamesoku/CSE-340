@@ -4,6 +4,13 @@ const Util = require("../utilities");
 const accountCon = require("../controllers/accountsController");
 const regValidate = require("../utilities/account-validation");
 const baseCon = require("../controllers/baseController");
+const { jwtAuth } = require("../utilities");
+
+router.get(
+  "/updateaccview/:client_id",
+  Util.jwtAuth,
+  Util.handleErrors(accountCon.accManagement)
+);
 
 router.get(
   "/login",
@@ -24,6 +31,22 @@ router.post(
   regValidate.registationRules(),
   regValidate.checkRegData,
   Util.handleErrors(accountCon.registerClient)
+);
+
+router.post(
+  "/updateuser",
+  Util.jwtAuth,
+  regValidate.updateuserRules(),
+  regValidate.checkupdateData,
+  Util.handleErrors(accountCon.updateClient)
+);
+
+router.post(
+  "/updatepass",
+  Util.jwtAuth,
+  regValidate.updatepassRules(),
+  regValidate.checkpassData,
+  Util.handleErrors(accountCon.updatePass)
 );
 
 router.post(
